@@ -1,7 +1,7 @@
 /*
 Binary Tree Implementation In Java
  */
-class Node<T extends  Number>{
+class Node<T extends  Comparable<T>>{
     public T data;
     public Node<T> left;
     public Node<T> right;
@@ -19,7 +19,7 @@ class Node<T extends  Number>{
         this.right=right;
     }
 }
-class BinaryTree<T extends Number>{
+class BinaryTree<T extends Comparable<T>>{
     Node<T> root;
 
     //Getting the Root Node
@@ -32,7 +32,7 @@ class BinaryTree<T extends Number>{
     }
     //Adding New Nodes
     public void addNode(Node newNode, Node root){
-        if(newNode.data.doubleValue()>root.data.doubleValue()){
+        if(newNode.data.compareTo(root.data)>0){
             if(root.right!=null)
                 addNode(newNode,root.right);
             else
@@ -45,21 +45,21 @@ class BinaryTree<T extends Number>{
                 root.left=newNode;
         }
     }
-    public void Search(Node current, T goal)
+    public void search(Node current, T goal)
     {
         if(current==null)
         {
             System.out.println("Такой вершины нет");
         }
         else {
-            if (current.data.doubleValue()<goal.doubleValue()) {
-                System.out.println("Найдена");
+            if (current.data.compareTo(goal)==0) {
+                System.out.println("Вершина "+goal+" найдена");
             }
-            if (current.data.doubleValue() < goal.doubleValue()) {
-                Search(current.left, goal);
+            if (current.data.compareTo(goal)>0)  {
+                search(current.left, goal);
             }
-            if (current.data.doubleValue() > goal.doubleValue()) {
-                Search(current.right, goal);
+            if (current.data.compareTo(goal)<0)  {
+                search(current.right, goal);
             }
         }
 
@@ -93,7 +93,7 @@ public class Main{
     public static void main(String[] args){
 
         //Root Node
-        BinaryTree bt = new BinaryTree<Integer>(10);
+        BinaryTree bt = new BinaryTree(10);
 
         bt.addNode(new Node(2),bt.getBinaryTree());
         bt.addNode(new Node(1),bt.getBinaryTree());
@@ -113,7 +113,39 @@ public class Main{
         System.out.println();
         System.out.println(":::::::::::Post Order Traversal:::::::::::");
         bt.postOrderPrint(bt.getBinaryTree());
-        bt.Search(bt.root, 42);
-        bt.Search(bt.root, 11);
+        bt.search(bt.root, 42);
+        bt.search(bt.root, 11);
+        People p=new People("Дроздова");
+        BinaryTree group=new BinaryTree(p);
+        group.addNode(new Node(new People("Дубовик")),group.getBinaryTree());
+        group.addNode(new Node(new People("Качицкая")),group.getBinaryTree());
+        group.addNode(new Node(new People("Копочель")),group.getBinaryTree());
+        group.addNode(new Node(new People("Князева")),group.getBinaryTree());
+        group.inOrderPrint(group.getBinaryTree());
+        group.search(group.root, new People("Дубовик"));
+
+    }
+}
+class People implements Comparable<People>
+{
+    private String name;
+    public People(String n)
+    {
+       name=n;
+    }
+
+
+    public String getName()
+    {
+        return name;
+    }
+    public int compareTo(People x)
+    {
+        return name.compareTo(x.getName());
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }
