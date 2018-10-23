@@ -2,11 +2,17 @@
 Binary Tree Implementation In Java
  */
 class Node<T extends  Comparable<T>>{
-    public T data;
-    public Node<T> left;
-    public Node<T> right;
+    T data;
+    Node<T> left;
+    Node<T> right;
 
     //Initializing the Node
+    Node()
+    {
+        data=null;
+        left=null;
+        right=null;
+    }
     Node(T data){
         this.data=data;
         this.left=null;
@@ -18,10 +24,10 @@ class Node<T extends  Comparable<T>>{
         this.left=left;
         this.right=right;
     }
+
 }
 class BinaryTree<T extends Comparable<T>>{
     Node<T> root;
-
     //Getting the Root Node
     public BinaryTree(T data){
         root= new Node<T>(data);
@@ -45,15 +51,18 @@ class BinaryTree<T extends Comparable<T>>{
                 root.left=newNode;
         }
     }
-    public void search(Node current, T goal)
+    public Node search(Node current, T goal)
     {
         if(current==null)
         {
             System.out.println("Такой вершины нет");
+            return null;
+
         }
         else {
             if (current.data.compareTo(goal)==0) {
                 System.out.println("Вершина "+goal+" найдена");
+                return current;
             }
             if (current.data.compareTo(goal)>0)  {
                 search(current.left, goal);
@@ -62,6 +71,7 @@ class BinaryTree<T extends Comparable<T>>{
                 search(current.right, goal);
             }
         }
+        return null;
 
     }
     // In Order Traversal
@@ -69,7 +79,16 @@ class BinaryTree<T extends Comparable<T>>{
         if(root==null)
             return;
         inOrderPrint(root.left);
+
         System.out.print(root.data+" | ");
+        if(root.right!=null)
+        {
+            System.out.println("Справа:"+root.right.data);
+        }
+        if(root.left!=null)
+        {
+            System.out.println("Слева:"+root.left.data);
+        }
         inOrderPrint(root.right);
     }
     //Pre Order Traversal
@@ -87,6 +106,37 @@ class BinaryTree<T extends Comparable<T>>{
         postOrderPrint(root.left);
         postOrderPrint(root.right);
         System.out.print(root.data+" | ");
+    }
+    public Node remove(Node t, T key) {
+        System.out.println(t.data);
+        if (t == null)
+            return t;
+        if (t.data.compareTo(key)>0)
+            remove(t.left, key);
+        else if (t.data.compareTo(key)<0)
+            remove(t.right, key);
+        else if (t.left != null && t.right != null) {
+            Node<T> m =t.right;
+            while (m.left != null)
+                m = m.left;
+            t.data=m.data;
+            if(t.right!=null)
+            t.right=m.right;
+            t.right=remove(t.right, (T)t.data);
+        } else if (t.left != null) {
+            System.out.println(t.data);
+            t.data=t.left.data;
+            t.right=t.left.right;
+            t.left=t.left.left;
+            System.out.println(t.data);
+
+        } else  {
+            t.data=t.right.data;
+            t.left=t.right.left;
+            t.right=t.right.right;
+
+        }
+        return t;
     }
 }
 public class Main{
@@ -122,7 +172,8 @@ public class Main{
         group.addNode(new Node(new People("Копочель")),group.getBinaryTree());
         group.addNode(new Node(new People("Князева")),group.getBinaryTree());
         group.inOrderPrint(group.getBinaryTree());
-        group.search(group.root, new People("Дубовик"));
+        group.remove(group.getBinaryTree(), new People("Качицкая"));
+        group.inOrderPrint(group.getBinaryTree());
 
     }
 }
