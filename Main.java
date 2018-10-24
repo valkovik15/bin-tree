@@ -27,7 +27,7 @@ class Node<T extends  Comparable<T>>{
 
 }
 class BinaryTree<T extends Comparable<T>>{
-    Node<T> root;
+    private Node<T> root;
     //Getting the Root Node
     public BinaryTree(T data){
         root= new Node<T>(data);
@@ -37,7 +37,7 @@ class BinaryTree<T extends Comparable<T>>{
         return root;
     }
     //Adding New Nodes
-    public void addNode(Node newNode, Node root){
+    private void addNode(Node newNode, Node root){
         if(newNode.data.compareTo(root.data)>0){
             if(root.right!=null)
                 addNode(newNode,root.right);
@@ -51,7 +51,11 @@ class BinaryTree<T extends Comparable<T>>{
                 root.left=newNode;
         }
     }
-    public Node search(Node current, T goal)
+    public void addNode(Node newNode)
+    {
+        addNode(newNode, getBinaryTree());
+    }
+    private Node search(Node current, T goal)
     {
         if(current==null)
         {
@@ -74,41 +78,44 @@ class BinaryTree<T extends Comparable<T>>{
         return null;
 
     }
+    public Node search(T goal)
+    {
+       return search(getBinaryTree(), goal);
+    }
     // In Order Traversal
-    public void inOrderPrint(Node root){
+    private void inOrderPrint(Node root){
         if(root==null)
             return;
         inOrderPrint(root.left);
-
         System.out.print(root.data+" | ");
-        if(root.right!=null)
-        {
-            System.out.println("Справа:"+root.right.data);
-        }
-        if(root.left!=null)
-        {
-            System.out.println("Слева:"+root.left.data);
-        }
         inOrderPrint(root.right);
     }
+    public void inOrderPrint() {
+        inOrderPrint(getBinaryTree());
+    }
     //Pre Order Traversal
-    public void preOrderPrint(Node root){
+    private void preOrderPrint(Node root){
         if(root==null)
             return;
         System.out.print(root.data+" | ");
         preOrderPrint(root.left);
         preOrderPrint(root.right);
     }
+    public void preOrderPrint() {
+        preOrderPrint(getBinaryTree());
+    }
     //Post Order Traversal
-    public void postOrderPrint(Node root){
+    private void postOrderPrint(Node root){
         if(root==null)
             return;
         postOrderPrint(root.left);
         postOrderPrint(root.right);
         System.out.print(root.data+" | ");
     }
-    public Node remove(Node t, T key) {
-        System.out.println(t.data);
+    public void postOrderPrint() {
+        postOrderPrint(getBinaryTree());
+    }
+    private Node remove(Node t, T key) {
         if (t == null)
             return t;
         if (t.data.compareTo(key)>0)
@@ -134,46 +141,53 @@ class BinaryTree<T extends Comparable<T>>{
             t.data=t.right.data;
             t.left=t.right.left;
             t.right=t.right.right;
-
         }
         return t;
     }
-}
+    public Node remove(T key) {
+        return remove(getBinaryTree(),key);
+    }
+    }
 public class Main{
     public static void main(String[] args){
 
         //Root Node
         BinaryTree bt = new BinaryTree(10);
 
-        bt.addNode(new Node(2),bt.getBinaryTree());
-        bt.addNode(new Node(1),bt.getBinaryTree());
-        bt.addNode(new Node(11),bt.getBinaryTree());
-        bt.addNode(new Node(13),bt.getBinaryTree());
-        bt.addNode(new Node(3),bt.getBinaryTree());
-        bt.addNode(new Node(12),bt.getBinaryTree());
-        bt.addNode(new Node(14),bt.getBinaryTree());
+        bt.addNode(new Node(2));
+        bt.addNode(new Node(1));
+        bt.addNode(new Node(11));
+        bt.addNode(new Node(13));
+        bt.addNode(new Node(3));
+        bt.addNode(new Node(12));
+        bt.addNode(new Node(14));
 
-        System.out.println(":::::::::::Pre Order Traversal:::::::::::");
-        bt.preOrderPrint(bt.getBinaryTree());
-
-        System.out.println();
-        System.out.println(":::::::::::In Order Traversal:::::::::::");
-        bt.inOrderPrint(bt.getBinaryTree());
+        System.out.println(":::::::::::ЦЛП:::::::::::");
+        bt.preOrderPrint();
 
         System.out.println();
-        System.out.println(":::::::::::Post Order Traversal:::::::::::");
-        bt.postOrderPrint(bt.getBinaryTree());
-        bt.search(bt.root, 42);
-        bt.search(bt.root, 11);
+        System.out.println(":::::::::::ЛЦП:::::::::::");
+        bt.inOrderPrint();
+
+        System.out.println();
+        System.out.println(":::::::::::ЛПЦ:::::::::::");
+        bt.postOrderPrint();
+        bt.search(42);
+        bt.search(11);
         People p=new People("Дроздова");
         BinaryTree group=new BinaryTree(p);
-        group.addNode(new Node(new People("Дубовик")),group.getBinaryTree());
-        group.addNode(new Node(new People("Качицкая")),group.getBinaryTree());
-        group.addNode(new Node(new People("Копочель")),group.getBinaryTree());
-        group.addNode(new Node(new People("Князева")),group.getBinaryTree());
-        group.inOrderPrint(group.getBinaryTree());
-        group.remove(group.getBinaryTree(), new People("Качицкая"));
-        group.inOrderPrint(group.getBinaryTree());
+        group.addNode(new Node(new People("Дубовик")));
+        group.addNode(new Node(new People("Качицкая")));
+        group.addNode(new Node(new People("Копочель")));
+        group.addNode(new Node(new People("Князева")));
+        System.out.println("По порядку");
+        group.inOrderPrint();
+        group.remove( new People("Качицкая"));
+        System.out.println("По порядку");
+        group.inOrderPrint();
+        group.remove( new People("Grrrr"));
+        System.out.println("По порядку");
+        group.inOrderPrint();
 
     }
 }
