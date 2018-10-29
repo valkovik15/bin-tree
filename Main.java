@@ -3,10 +3,10 @@ Binary Tree Implementation In Java
  */
 
 class BinaryTree<T extends Comparable<T>> {
-    class Node<T extends Comparable<T>> {
+    class Node {
         T data;
-        Node<T> left;
-        Node<T> right;
+        Node left;
+        Node right;
 
         //Initializing the Node
         Node() {
@@ -22,7 +22,7 @@ class BinaryTree<T extends Comparable<T>> {
         }
 
         //Node Creation
-        Node(T data, Node<T> left, Node<T> right) {
+        Node(T data, Node left, Node right) {
             this.data = data;
             this.left = left;
             this.right = right;
@@ -30,11 +30,11 @@ class BinaryTree<T extends Comparable<T>> {
 
     }
 
-    private Node<T> root;
+    private Node root;
 
     //Getting the Root Node
     public BinaryTree(T data) {
-        root = new Node<T>(data);
+        root = new Node(data);
     }
 
     //Returning the Root Node
@@ -133,7 +133,7 @@ class BinaryTree<T extends Comparable<T>> {
         else if (t.data.compareTo(key) < 0)
             remove(t.right, key);
         else if (t.left != null && t.right != null) {
-            Node<T> m = t.right;
+            Node m = t.right;
             while (m.left != null)
                 m = m.left;
             t.data = m.data;
