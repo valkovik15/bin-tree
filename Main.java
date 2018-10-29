@@ -1,6 +1,4 @@
-/*
-Binary Tree Implementation In Java
- */
+
 
 class BinaryTree<T extends Comparable<T>> {
     class Node {
@@ -8,7 +6,6 @@ class BinaryTree<T extends Comparable<T>> {
         Node left;
         Node right;
 
-        //Initializing the Node
         Node() {
             data = null;
             left = null;
@@ -21,7 +18,6 @@ class BinaryTree<T extends Comparable<T>> {
             this.right = null;
         }
 
-        //Node Creation
         Node(T data, Node left, Node right) {
             this.data = data;
             this.left = left;
@@ -32,17 +28,16 @@ class BinaryTree<T extends Comparable<T>> {
 
     private Node root;
 
-    //Getting the Root Node
+    //получение корня
     public BinaryTree(T data) {
         root = new Node(data);
     }
 
-    //Returning the Root Node
     public Node getBinaryTree() {
         return root;
     }
 
-    //Adding New Nodes
+    //добавление узла
     private void addNode(Node newNode, Node root) {
         if (newNode.data.compareTo(root.data) >= 0) {
             if (root.right != null)
@@ -82,11 +77,12 @@ class BinaryTree<T extends Comparable<T>> {
 
     }
 
+    //поиск
     public boolean search(T goal) {
         return search(root, goal);
     }
 
-    // In Order Traversal
+    // Левый-корень-правый
     private void inOrderPrint(Node root) {
         if (root == null)
             return;
@@ -99,7 +95,7 @@ class BinaryTree<T extends Comparable<T>> {
         inOrderPrint(root);
     }
 
-    //Pre Order Traversal
+    //Корень-левый-правый
     private void preOrderPrint(Node root) {
         if (root == null)
             return;
@@ -112,7 +108,7 @@ class BinaryTree<T extends Comparable<T>> {
         preOrderPrint(root);
     }
 
-    //Post Order Traversal
+    //Левый-правый-корень
     private void postOrderPrint(Node root) {
         if (root == null)
             return;
@@ -163,7 +159,6 @@ class BinaryTree<T extends Comparable<T>> {
 public class Main {
     public static void main(String[] args) {
 
-        //Root Node
         BinaryTree bt = new BinaryTree(10);
 
         bt.addNode(2);
