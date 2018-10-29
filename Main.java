@@ -1,32 +1,33 @@
 /*
 Binary Tree Implementation In Java
  */
-class Node<T extends  Comparable<T>>{
-    T data;
-    Node<T> left;
-    Node<T> right;
 
-    //Initializing the Node
-    Node()
-    {
-        data=null;
-        left=null;
-        right=null;
-    }
-    Node(T data){
-        this.data=data;
-        this.left=null;
-        this.right=null;
-    }
-    //Node Creation
-    Node(T data,Node<T> left,Node<T> right){
-        this.data=data;
-        this.left=left;
-        this.right=right;
-    }
-
-}
 class BinaryTree<T extends Comparable<T>>{
+    class Node<T extends  Comparable<T>>{
+        T data;
+        Node<T> left;
+        Node<T> right;
+
+        //Initializing the Node
+        Node()
+        {
+            data=null;
+            left=null;
+            right=null;
+        }
+        Node(T data){
+            this.data=data;
+            this.left=null;
+            this.right=null;
+        }
+        //Node Creation
+        Node(T data,Node<T> left,Node<T> right){
+            this.data=data;
+            this.left=left;
+            this.right=right;
+        }
+
+    }
     private Node<T> root;
     //Getting the Root Node
     public BinaryTree(T data){
@@ -38,7 +39,7 @@ class BinaryTree<T extends Comparable<T>>{
     }
     //Adding New Nodes
     private void addNode(Node newNode, Node root){
-        if(newNode.data.compareTo(root.data)>0){
+        if(newNode.data.compareTo(root.data)>=0){
             if(root.right!=null)
                 addNode(newNode,root.right);
             else
@@ -51,22 +52,22 @@ class BinaryTree<T extends Comparable<T>>{
                 root.left=newNode;
         }
     }
-    public void addNode(Node newNode)
+    public void addNode(T x)
     {
-        addNode(newNode, getBinaryTree());
+        addNode(new Node(x), getBinaryTree());
     }
-    private Node search(Node current, T goal)
+    private boolean search(Node current, T goal)
     {
         if(current==null)
         {
             System.out.println("Такой вершины нет");
-            return null;
+            return false;
 
         }
         else {
             if (current.data.compareTo(goal)==0) {
                 System.out.println("Вершина "+goal+" найдена");
-                return current;
+                return true;
             }
             if (current.data.compareTo(goal)>0)  {
                 search(current.left, goal);
@@ -75,12 +76,12 @@ class BinaryTree<T extends Comparable<T>>{
                 search(current.right, goal);
             }
         }
-        return null;
+        return false;
 
     }
-    public Node search(T goal)
+    public boolean search(T goal)
     {
-       return search(getBinaryTree(), goal);
+       return search(root, goal);
     }
     // In Order Traversal
     private void inOrderPrint(Node root){
@@ -91,7 +92,7 @@ class BinaryTree<T extends Comparable<T>>{
         inOrderPrint(root.right);
     }
     public void inOrderPrint() {
-        inOrderPrint(getBinaryTree());
+        inOrderPrint(root);
     }
     //Pre Order Traversal
     private void preOrderPrint(Node root){
@@ -102,7 +103,7 @@ class BinaryTree<T extends Comparable<T>>{
         preOrderPrint(root.right);
     }
     public void preOrderPrint() {
-        preOrderPrint(getBinaryTree());
+        preOrderPrint(root);
     }
     //Post Order Traversal
     private void postOrderPrint(Node root){
@@ -113,7 +114,7 @@ class BinaryTree<T extends Comparable<T>>{
         System.out.print(root.data+" | ");
     }
     public void postOrderPrint() {
-        postOrderPrint(getBinaryTree());
+        postOrderPrint(root);
     }
     private Node remove(Node t, T key) {
         if (t == null)
@@ -145,7 +146,7 @@ class BinaryTree<T extends Comparable<T>>{
         return t;
     }
     public Node remove(T key) {
-        return remove(getBinaryTree(),key);
+        return remove(root,key);
     }
     }
 public class Main{
@@ -154,13 +155,13 @@ public class Main{
         //Root Node
         BinaryTree bt = new BinaryTree(10);
 
-        bt.addNode(new Node(2));
-        bt.addNode(new Node(1));
-        bt.addNode(new Node(11));
-        bt.addNode(new Node(13));
-        bt.addNode(new Node(3));
-        bt.addNode(new Node(12));
-        bt.addNode(new Node(14));
+        bt.addNode(2);
+        bt.addNode(1);
+        bt.addNode(11);
+        bt.addNode(13);
+        bt.addNode(3);
+        bt.addNode(12);
+        bt.addNode(14);
 
         System.out.println(":::::::::::ЦЛП:::::::::::");
         bt.preOrderPrint();
@@ -176,10 +177,10 @@ public class Main{
         bt.search(11);
         People p=new People("Дроздова");
         BinaryTree group=new BinaryTree(p);
-        group.addNode(new Node(new People("Дубовик")));
-        group.addNode(new Node(new People("Качицкая")));
-        group.addNode(new Node(new People("Копочель")));
-        group.addNode(new Node(new People("Князева")));
+        group.addNode((new People("Дубовик")));
+        group.addNode((new People("Качицкая")));
+        group.addNode((new People("Копочель")));
+        group.addNode((new People("Князева")));
         System.out.println("По порядку");
         group.inOrderPrint();
         group.remove( new People("Качицкая"));
