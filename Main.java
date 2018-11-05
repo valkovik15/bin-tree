@@ -1,10 +1,10 @@
 
 
 class BinaryTree<T extends Comparable<T>> {
-    class Node {
-        T data;
-        Node left;
-        Node right;
+    private class Node {
+        private T data;
+        private Node left;
+        private Node right;
 
         Node() {
             data = null;
@@ -56,29 +56,29 @@ class BinaryTree<T extends Comparable<T>> {
         addNode(new Node(data), getBinaryTree());
     }
 
-    private boolean search(Node current, T goal) {
+    private Node search(Node current, T goal) {
         if (current == null) {
             System.out.println("Такой вершины нет");
-            return false;
+            return null;
 
         } else {
             if (current.data.compareTo(goal) == 0) {
                 System.out.println("Вершина " + goal + " найдена");
-                return true;
+                return current;
             }
             if (current.data.compareTo(goal) > 0) {
                 search(current.left, goal);
             }
-            if (current.data.compareTo(goal) < 0) {
+            else {
                 search(current.right, goal);
             }
         }
-        return false;
+        return null;
 
     }
 
     //поиск
-    public boolean search(T goal) {
+    public Node search(T goal) {
         return search(root, goal);
     }
 
@@ -95,7 +95,7 @@ class BinaryTree<T extends Comparable<T>> {
         inOrderPrint(root);
     }
 
-    //Корень-левый-правый
+    //Корень-левый-правыйзадатьНовыйЗнаменатель
     private void preOrderPrint(Node root) {
         if (root == null)
             return;
@@ -208,7 +208,7 @@ class People implements Comparable<People> {
     public String getName() {
         return name;
     }
-
+    @Override
     public int compareTo(People other) {
         return name.compareTo(other.getName());
     }
